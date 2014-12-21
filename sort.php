@@ -20,9 +20,6 @@ public function select($query) {
   return $this->toArray($this->query($query));
 }
 
-public function lala(){
-    
-}
 public function query($query) {
   return mysqli_query($this->db, $query);
 }
