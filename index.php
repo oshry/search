@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Test </title>
-  
+  <title>Test One</title>
   <link rel="stylesheet" href="assets/css/layout.css?v=1.0">
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="assets/js/script.js"></script>
