@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <title>form</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+
+    <script>
+      var view = {
+        avertise_in_our_site_title_label : "Advertise Here!",
+        occupation : "Web Developer"
+      };
+ 
+      function loadtemp(){
+        var output = Mustache.render("{{name}} is a  {{occupation}}", view);
+        document.getElementById('person').innerHTML = output;
+      }
+    </script>
+</head>
+
+<body onload="loadtemp()">
+
+<p id="person"></p>
+<form id="advetise_form" name="advertise_form" method="post" accept-charset="utf-8">
+    <div class="title">
+        <h1>{{avertise_in_our_site_title_label}}</h1>
+    </div>
+    <fieldset>
+        {{adertise_info1_label}}.<br>{{adertise_info2_label}}.
+    {{message}}<br>
+    {{#errors}}
+        {{email}}<br>
+        {{#_external}}
+        {{password_confirm}}<br>
+        {{/_external}}
+    {{/errors}}
+    <div id="messages1"></div>
+    <div id="reg_inline">
+  
+        <div class="line">
+            <label for="name">{{name_label}}*:</label>
+            <input id="name" type="text" name="name" value=""/>
+        </div>    
+        <div class="line">
+            <label for="company_name">{{company_name_label}}:</label>
+            <input id="company_name" type="text" name="company_name" value=""/>
+        </div> 
+        <div class="line">
+            <label for="email">{{email_label}}*:</label>
+            <input id="email" type="text" name="email" value="" onblur='checkEmail()'/>
+        </div>    
+        <div class="line">
+            <label for="phone">{{phone_label}}:</label>
+            <input id="phone" type="text" name="phone" value=""/>
+        </div> 
+        <div class="line">
+            <label for="domain">{{domain_label}}:</label>
+            <input id="domain" type="text" name="domain" value=""/>
+        </div> 
+        <div class="line">
+            <label for="message_body">{{message_body_label}}:</label>
+            <textarea id="message_body" class="message_body"  name="message_body" rows="4" cols="30"></textarea>
+        </div>
+        <div class="line">
+            <div class="control-group">
+                <label class="control-label" for="inputCaptcha">
+                    {{{captcha}}}
+                </label>
+                <div class="line">    
+                  <label for="company_name">{{capcha_vaild_label}}*:</label>  
+                  <input type="text" id="inputCaptcha" placeholder="{{captcha_placeholder}}" name="captcha">
+                </div>
+            </div>  
+        </div>  
+        <div class="line">
+            <input type="submit" name="submit" class="button" id="submit_advertise" value="{{send_message_label}}" />
+        <!--<button type="submit">{{register_label}}</button>-->
+        </div>
+    </div>    
+    </fieldset>
+    <script type="text/javascript">  
+       $('#submit_advertise').click(function(){
+           var name         = $("input#name").val();
+           var company_name = $("input#company_name").val(); 
+           var email        = $("input#email").val();
+           var phone        = $("input#phone").val(); 
+           var domain       = $("input#domain").val(); 
+           var message_body = $("textarea#message_body").val(); 
+           var captcha      = $("input#inputCaptcha").val();
+           var form_type = 'advertise';
+           var fancyboxProxy = $.fancybox;
+           function openFancybox(text) {
+             $.fancybox({
+                'type': 'inline',
+                'autoSize': false,
+                'closeBtn ': false,
+                'maxHeight': 50,
+                'height':50,
+                'width': 200,
+                'content':text,
+                'href' : '#contentdiv'
+             });
+            }
+           
+           var dataString   = 'name='+ name + '&company_name=' + company_name + '&email=' + email + '&phone=' + phone + '&domain=' + domain + '&message_body=' + message_body + '&captcha=' + captcha + '&form_type=' + form_type; 
+            $.ajax({  
+              type: "POST",  
+              url: "{{base}}form/advertise",  
+              data: dataString, 
+              async: false,
+              success: function(data) {
+                $('#advetise_form')[0].reset();  
+                //$("#advetise_form").reset();  
+                openFancybox("{{{advertise_form_success_label}}}");
+                $('.fancybox-inner').addClass('importantSubitAdvertiseSise');
+                setTimeout(function() {
+                    fancyboxProxy.close();
+                 }, 2000);  
+              },
+              error: function(xhr, status, error){
+               $('#messages1').html(xhr.responseText);
+              }
+            }); 
+            return false;  
+       }); 
+       </script>    
+</form>
+    
+    
+<ul id="results"></ul>
+
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+<script type="mustache/x-tmpl" id="name_matches_tmpl">
+  {{#matches}}
+  <li>{{name}}</li>
+  {{/matches}}
+  {{^matches}}
+  <li><em>No matches found </em></li>
+  {{/matches}}
+</script>
+
+<script>
+$("#search_box").keyup(function(e){
+  if(e.keyCode==13){
+       var query = $(this).val();
+        var matchType = $("input[type=radio]:checked").attr("value");
+        var data = {query: query, matchType: matchType};
+
+          $.ajax({
+          url: "sort.php",
+          data: data,
+          type: "post",
+          dataType: "json",
+          success: function(res) {
+              var tmpl = $("#name_matches_tmpl").html();
+              var html = Mustache.to_html(tmpl, res);
+              $("#results").html(html);
+          }
+          });
+  }  
+
+
+});
+
+$("input[type=radio]").change(function(){
+    $("#search_box").trigger("keyup");
+    
+});
+
+$("#search_box").focus();
+</script>
+
+</body>
+</html>

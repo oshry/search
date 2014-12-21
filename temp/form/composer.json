@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mustache/mustache": "~2.5",
+        "dannyvankooten/php-router": "dev-master"
+    }
+}

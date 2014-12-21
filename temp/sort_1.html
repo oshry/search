@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+    <title>SORT ARRAY</title>
+</head>
+
+<body>
+
+<style>
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  margin: 0;
+  background: #eee;
+  border: 1px solid #aaa;
+}
+</style>
+
+<p>Enter Array: <input type="text" id="search_box"/></p>
+<p><input type="radio" name="match_type" value="0"/> ASC | <input type="radio" name="match_type" value="1"/> DESC</p>
+
+<hr/>
+
+<ul id="results"></ul>
+
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+<script type="mustache/x-tmpl" id="name_matches_tmpl">
+  {{#matches}}
+  <li>{{name}}</li>
+  {{/matches}}
+  {{^matches}}
+  <li><em>No matches found </em></li>
+  {{/matches}}
+</script>
+
+<script>
+$("#search_box").keyup(function(e){
+  if(e.keyCode==13){
+       var query = $(this).val();
+        var matchType = $("input[type=radio]:checked").attr("value");
+        var data = {query: query, matchType: matchType};
+
+          $.ajax({
+          url: "sort.php",
+          data: data,
+          type: "post",
+          dataType: "json",
+          success: function(res) {
+              var tmpl = $("#name_matches_tmpl").html();
+              var html = Mustache.to_html(tmpl, res);
+              $("#results").html(html);
+          }
+          });
+  }  
+
+
+});
+
+$("input[type=radio]").change(function(){
+    $("#search_box").trigger("keyup");
+    
+});
+
+$("#search_box").focus();
+</script>
+
+</body>
+</html>

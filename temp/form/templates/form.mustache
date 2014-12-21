@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <title>form</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+</head>
+
+
+<body>
+<form id="form" name="form" method="post" accept-charset="utf-8">
+    <div class="title">
+        <h1>{{form_title}}</h1>
+    </div>
+    <fieldset>
+    {{message}}<br>
+    {{#errors}}
+        {{email}}<br>
+        {{#_external}}
+        {{password_confirm}}<br>
+        {{/_external}}
+    {{/errors}}
+    <div id="messages1"></div>
+    <div id="reg_inline">
+        <div class="line">
+            <label for="input1">{{input1_label}}*:</label>
+            <input id="input1" type="text" name="input1" value=""/>
+        </div>    
+        <div class="line">
+            <label for="input2">{{input2_label}}*:</label>
+            <select id="option_id" name="option_id">
+                {{#input2_list}}
+                    <option value="{{code}}" {{#selected}}selected="selected"{{/selected}}>{{option}}</option>
+                {{/input2_list}}
+            </select>
+        </div>      
+        <div class="line">
+            <input type="submit" name="submit" class="button" id="submit_advertise" value="{{send_message_label}}" />
+        <!--<button type="submit">{{register_label}}</button>-->
+        </div>
+    </div>    
+    </fieldset>
+    <script type="text/javascript">  
+       $('#submit_advertise').click(function(){
+          alert('Here'); 
+          /* var name         = $("input#name").val();
+           var company_name = $("input#company_name").val(); 
+           var email        = $("input#email").val();
+           var phone        = $("input#phone").val(); 
+           var domain       = $("input#domain").val(); 
+           var message_body = $("textarea#message_body").val(); 
+           var captcha      = $("input#inputCaptcha").val();
+           var form_type = 'advertise';
+           var fancyboxProxy = $.fancybox;
+           function openFancybox(text) {
+             $.fancybox({
+                'type': 'inline',
+                'autoSize': false,
+                'closeBtn ': false,
+                'maxHeight': 50,
+                'height':50,
+                'width': 200,
+                'content':text,
+                'href' : '#contentdiv'
+             });
+            }
+           
+           var dataString   = 'name='+ name + '&company_name=' + company_name + '&email=' + email + '&phone=' + phone + '&domain=' + domain + '&message_body=' + message_body + '&captcha=' + captcha + '&form_type=' + form_type; 
+            $.ajax({  
+              type: "POST",  
+              url: "{{base}}form/advertise",  
+              data: dataString, 
+              async: false,
+              success: function(data) {
+                $('#advetise_form')[0].reset();  
+                //$("#advetise_form").reset();  
+                openFancybox("{{{advertise_form_success_label}}}");
+                $('.fancybox-inner').addClass('importantSubitAdvertiseSise');
+                setTimeout(function() {
+                    fancyboxProxy.close();
+                 }, 2000);  
+              },
+              error: function(xhr, status, error){
+               $('#messages1').html(xhr.responseText);
+              }
+            }); */
+            return false;  
+       }
+       ); 
+       </script>    
+</form>
