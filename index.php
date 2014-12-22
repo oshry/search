@@ -6,11 +6,10 @@
   <link rel="stylesheet" href="assets/css/layout.css?v=1.0">
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="assets/js/script.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
 </head>
 <body>
-    <ul id="start"></ul>
-    <ul id="results"></ul>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+    <div id="data"></div>
     <script type="mustache/x-tmpl" id="matches_tmpl">
      <table>
           <tr>
